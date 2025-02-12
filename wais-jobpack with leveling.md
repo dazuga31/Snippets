@@ -35,7 +35,8 @@ function selectJob(job)
     -- Check if the job parameter is provided
     if not job then
         print("[ERROR] selectJob was called without a job argument")
-        return Config.Notification(Lang('job'), "Invalid job selection", "error", 5000)
+        QBCore.Functions.Notify("Invalid job selection", "error", 5000)
+        return
     end
 
     print("[DEBUG] selectJob called with job:", job)
@@ -46,7 +47,8 @@ function selectJob(job)
     -- Check if the job exists in the job requirements list
     if not jobRequirements[job] then
         print("[ERROR] Job '" .. job .. "' not found in JobRequirements table")
-        return Config.Notification(Lang('job'), "This job does not exist", "error", 5000)
+        QBCore.Functions.Notify("This job does not exist", "error", 5000)
+        return
     end
 
     print("[DEBUG] Minimum player level required for job", job, "is", jobRequirements[job])
@@ -59,7 +61,8 @@ function selectJob(job)
         -- Validate if the player level was retrieved
         if not playerLevel then
             print("[ERROR] Failed to retrieve player level")
-            return Config.Notification(Lang('job'), "Error retrieving player level", "error", 5000)
+            QBCore.Functions.Notify("Error retrieving player level", "error", 5000)
+            return
         end
 
         print("[DEBUG] Player general level is", playerLevel)
@@ -67,11 +70,14 @@ function selectJob(job)
         -- Check if the player's level is sufficient for the job
         if jobRequirements[job] > playerLevel then
             print("[INFO] Player general level too low for job:", job)
-            return Config.Notification(Lang('job'), "Your level is not high enough to start this job", "error", 5000)
+            QBCore.Functions.Notify("Your level is not high enough to start this job", "error", 5000)
+            return
         end
 
         -- Assign the job if the level requirement is met
         print("[SUCCESS] Assigning job:", job, "to player")
+        QBCore.Functions.Notify("You have successfully started the job: " .. job, "success", 5000)
+
         if Config.SideJob then
             TriggerEvent('wais:set:sideJob', job)
         else
@@ -82,11 +88,14 @@ function selectJob(job)
         if Config.Jobs[job] and Config.Jobs[job].menu and Config.Jobs[job].menu.job_menu then
             SetNewWaypoint(Config.Jobs[job].menu.job_menu.x, Config.Jobs[job].menu.job_menu.y)
             print("[DEBUG] Waypoint set for job:", job)
+            QBCore.Functions.Notify("A waypoint has been set for your job location", "primary", 5000)
         else
             print("[ERROR] Job location data is missing for:", job)
+            QBCore.Functions.Notify("Job location data is missing", "error", 5000)
         end
     end)
 end
+
 ```
 
 ---
