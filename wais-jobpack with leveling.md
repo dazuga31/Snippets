@@ -101,7 +101,7 @@ end)
 
 ## 3. Add tihs EvenHandler in any Server Side .lua file in wais-jobpack/server
 
----lua
+```lua
 
 RegisterNetEvent("marko_fraction_cloakroom:requestPlayerLevelForJob")
 AddEventHandler("marko_fraction_cloakroom:requestPlayerLevelForJob", function(job)
@@ -122,7 +122,7 @@ AddEventHandler("marko_fraction_cloakroom:requestPlayerLevelForJob", function(jo
         TriggerClientEvent("marko_fraction_cloakroom:sendPlayerLevelForJob", src, job, playerLevel)
     end)
 end)
-
+```
 
 ---
 
