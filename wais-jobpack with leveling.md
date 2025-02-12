@@ -53,7 +53,6 @@ function selectJob(job)
 
     print("[DEBUG] Minimum player level required for job", job, "is", jobRequirements[job])
 
-    -- Get player identifier
     local playerServerId = GetPlayerServerId(PlayerId())
 
     -- Trigger event to fetch player's general level (Player Level)
@@ -68,22 +67,20 @@ function selectJob(job)
         print("[DEBUG] Player general level is", playerLevel)
 
         -- Check if the player's level is sufficient for the job
-        if jobRequirements[job] > playerLevel then
-            print("[INFO] Player general level too low for job:", job)
-            QBCore.Functions.Notify("Your level is not high enough to start this job", "error", 5000)
+        if playerLevel < jobRequirements[job] then
+            print("[INFO] Player general level too low for job:", job, "(Required:", jobRequirements[job], ", Player Level:", playerLevel, ")")
+            QBCore.Functions.Notify("Your level (" .. playerLevel .. ") is not high enough to start this job. Required level: " .. jobRequirements[job], "error", 5000)
             return
         end
 
         -- Assign the job if the level requirement is met
         print("[SUCCESS] Assigning job:", job, "to player")
         QBCore.Functions.Notify("You have successfully started the job: " .. job, "success", 5000)
-
         if Config.SideJob then
             TriggerEvent('wais:set:sideJob', job)
         else
             TriggerServerEvent('wais:setJob', job)
         end
-
         -- Set waypoint for the job location
         if Config.Jobs[job] and Config.Jobs[job].menu and Config.Jobs[job].menu.job_menu then
             SetNewWaypoint(Config.Jobs[job].menu.job_menu.x, Config.Jobs[job].menu.job_menu.y)
@@ -95,7 +92,6 @@ function selectJob(job)
         end
     end)
 end
-
 ```
 
 ---
