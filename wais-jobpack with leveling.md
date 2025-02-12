@@ -126,9 +126,8 @@ end)
 
 ---
 
----
 
-## 3. Logic Explanation
+## 4. Logic Explanation
 - **General player level (`Player Level`) is now used** instead of job-specific skill levels.
 - The function checks if the player has **enough general level** to start a job.
 - Players **unlock higher-level jobs** as they level up.
